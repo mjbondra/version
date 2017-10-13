@@ -15,5 +15,6 @@
     "tags",
     "version",
     "versioning"
-  ]
+  ],
+  "repository": "https://gitlab.com/wondermonger/version"
 }
