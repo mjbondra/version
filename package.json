@@ -1,0 +1,19 @@
+{
+  "name": "@wondermonger/version",
+  "version": "1.0.0",
+  "description": "versioning utility",
+  "main": "index.js",
+  "bin": "bin/version",
+  "author": {
+    "name": "Michael J. Bondra",
+    "email": "mjbondra@gmail.com",
+    "url": "https://mjbondra.com/"
+  },
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "tags",
+    "version",
+    "versioning"
+  ]
+}
