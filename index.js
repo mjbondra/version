@@ -1,7 +1,9 @@
 'use strict';
 
+const { join } = require('path');
+
 const cwd = process.cwd();
-const path = `${cwd}/package.json`;
+const path = join(cwd, 'package.json');
 const pkg = require(path);
 
 const versionValidate = /^[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}$/
