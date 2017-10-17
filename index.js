@@ -50,7 +50,7 @@ process.stdin.on('end', async () => {
   try {
     version = versionFile
       ? await readFileAsync(versionFile, 'utf8')
-      : versions[versions.length - 1];
+      : versions[versions.length - 1] || '1.0.0-0';
   } catch (err) {
     process.stderr.write(`unable to retrieve version from ${versionFile}\n`);
     return process.exit(1);
@@ -69,8 +69,8 @@ process.stdin.on('end', async () => {
       break;
 
     case 'patch':
+      if (typeof preRelease === 'undefined') patch++;
       preRelease = undefined;
-      patch++;
       break;
 
     case 'minor':
