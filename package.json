@@ -1,7 +1,7 @@
 {
   "name": "@wondermonger/version",
   "version": "1.0.2-0",
-  "description": "versioning utility",
+  "description": "A simple utility for semantic versioning.",
   "main": "index.js",
   "bin": "bin/version",
   "author": {
