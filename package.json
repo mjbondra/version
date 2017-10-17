@@ -1,6 +1,6 @@
 {
   "name": "@wondermonger/version",
-  "version": "1.0.1",
+  "version": "1.0.2-0",
   "description": "versioning utility",
   "main": "index.js",
   "bin": "bin/version",
