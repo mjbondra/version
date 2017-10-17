@@ -1,0 +1,34 @@
+image: node:latest
+
+cache:
+  paths:
+  - node_modules/
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - git clone https://gitlab.com/wondermonger/shared-ci.git
+  - export PATH="$PATH:$(pwd)/shared-ci/bin"
+
+install:
+  script: wondermonger-ci-install
+  stage: build
+
+lint:
+  script: wondermonger-ci-lint
+  stage: test
+
+release:
+  only:
+    - master
+  script: wondermonger-ci-release
+  stage: deploy
+
+publish:
+  only:
+    - tags
+  script: wondermonger-ci-publish
+  stage: deploy

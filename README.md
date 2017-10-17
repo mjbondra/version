@@ -1,6 +1,6 @@
 # @wondermonger/version
 
-A simple utility for determining a unique version that doesn't conflict with existing git tags. Initially checks the value of the `version` property located in the current working directory's `package.json` file, and increments the patch portion of that value until a unique release is determined. This approach requires external minor and major version incrementation.
+A simple utility for semantic versioning.
 
 ## Installation
 
@@ -8,10 +8,31 @@ A simple utility for determining a unique version that doesn't conflict with exi
 npm i -g @wondermonger/version
 ```
 
+**OR**
+
+```shell
+yarn global add @wondermonger/version
+```
+
 ## Usage
 
-```shell 
-git tag | version # prints a unique version to stdout
+This utility does not create new tags, nor does it modify any files, it simply writes non-conflicting version numbers to stdout.
+
+```shell
+# new prerelease version
+git tag | version --new-version prerelease
+
+# new patch version
+git tag | version --new-version patch
+
+# new minor version
+git tag | version --new-version minor
+
+# new major version
+git tag | version --new-version major
+
+# new custom version
+git tag | version --new-version 1.0.0-alpha
 ```
 
 ## License
@@ -37,4 +58,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
