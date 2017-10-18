@@ -4,10 +4,11 @@ const { promisify } = require('util');
 const { readFile } = require('fs');
 const { argv } = require('yargs');
 
+const { newVersion, versionFile, prefix = '' } = argv;
 const readFileAsync = promisify(readFile);
 
-const isInt = /^[0-9]{1,}$/;
-const isSemVer = /^[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}(-[0-9A-Za-z.-]{0,}[0-9A-Za-z]{1,}){0,}$/;
+const isInt = /^[0-9]+$/;
+const isVer = new RegExp(`^${prefix}[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]*[0-9A-Za-z]+)*$`);
 const versions = [];
 
 process.stdin.setEncoding('utf8');
@@ -16,12 +17,17 @@ process.stdin.on('readable', () => {
 
   if (input !== null) {
     input.split('\n')
-      .filter(version => isSemVer.test(version))
+      .filter(version => isVer.test(version))
       .forEach(version => versions.push(version));
 
     versions.sort((a, b) => {
-      const [ aVersion, aPreRelease ] = a.split('-').map(val => isInt.test(val) ? +val : val);
-      const [ bVersion, bPreRelease ] = b.split('-').map(val => isInt.test(val) ? +val : val);
+      const [ aVersion, aPreRelease ] = a.replace(prefix, '')
+        .split('-')
+        .map(val => isInt.test(val) ? +val : val);
+      const [ bVersion, bPreRelease ] = b.replace(prefix, '')
+        .split('-')
+        .map(val => isInt.test(val) ? +val : val);
+
       const [ aMajor, aMinor, aPatch ] = aVersion.split('.').map(num => +num);
       const [ bMajor, bMinor, bPatch ] = bVersion.split('.').map(num => +num);
 
@@ -44,19 +50,21 @@ process.stdin.on('readable', () => {
 });
 
 process.stdin.on('end', async () => {
-  const { newVersion, versionFile } = argv;
   let version;
 
   try {
     version = versionFile
       ? await readFileAsync(versionFile, 'utf8')
-      : versions[versions.length - 1] || '1.0.0-0';
+      : versions[versions.length - 1] || `${prefix}1.0.0-0`;
   } catch (err) {
     process.stderr.write(`unable to retrieve version from ${versionFile}\n`);
     return process.exit(1);
   }
 
-  let [ release, preRelease ] = version.split('-').map(val => isInt.test(val) ? +val : val);
+  let [ release, preRelease ] = version.replace(prefix, '')
+    .split('-')
+    .map(val => isInt.test(val) ? +val : val);
+
   let [ major, minor, patch ] = release.split('.').map(num => +num);
 
   switch (newVersion) {
@@ -87,7 +95,7 @@ process.stdin.on('end', async () => {
       break;
 
     default:
-      if (isSemVer.test(newVersion)) {
+      if (isVer.test(newVersion)) {
         [ release, preRelease ] = newVersion.split('-').map(val => isInt.test(val) ? +val : val);
         [ major, minor, patch ] = release.split('.').map(num => +num);
       } else {
@@ -98,9 +106,9 @@ process.stdin.on('end', async () => {
   }
 
   if (typeof preRelease === 'undefined') {
-    version = `${major}.${minor}.${patch}`;
+    version = `${prefix}${major}.${minor}.${patch}`;
   } else {
-    version = `${major}.${minor}.${patch}-${preRelease}`;
+    version = `${prefix}${major}.${minor}.${patch}-${preRelease}`;
   }
 
   if (versions.includes(version)) {
