@@ -20,20 +20,46 @@ This utility does not create new tags, nor does it modify any files, it simply w
 
 ```shell
 # new prerelease version
-git tag | version --new-version prerelease
+git tag | wondermonger-version --new-version prerelease
 
 # new patch version
-git tag | version --new-version patch
+git tag | wondermonger-version --new-version patch
 
 # new minor version
-git tag | version --new-version minor
+git tag | wondermonger-version --new-version minor
 
 # new major version
-git tag | version --new-version major
+git tag | wondermonger-version --new-version major
 
-# new custom version
-git tag | version --new-version 1.0.0-alpha
+# explicit version
+git tag | wondermonger-version --new-version 2.0.0-alpha
 ```
+
+**Sources**
+
+Pipe any new-line separated list of semantic versions to the `wondermonger-version` utility. In the absence of a version file, incrementation will happen relative to the latest version.
+
+```shell
+versions=$(git tag)
+echo $versions | wondermonger-version --new version
+
+versions="v1.0.0-alpha\nv1.0.0\nv1.0.1"
+echo $versions | wondermonger-version --prefix "v" --new version
+```
+
+**Flags**
+
+**--new-version**
+
+ Versioning strategy (`prepublish`, `patch`, `minor`, `major`) or an explicit version.
+
+**--prefix**
+
+Optional character(s) that preceed version.
+
+**--version-file**
+
+Optional file containing a single semantic version against which incrementation should occur.
 
 ## License
 
