@@ -3,7 +3,9 @@
   "version": "1.1.1-0",
   "description": "A simple utility for semantic versioning.",
   "main": "index.js",
-  "bin": "bin/wondermonger-version",
+  "bin": {
+    "wondermonger-version": "./bin/wondermonger-version"
+  },
   "author": {
     "name": "Michael J. Bondra",
     "email": "mjbondra@gmail.com",
