@@ -41,10 +41,10 @@ Pipe any new-line separated list of semantic versions to the `wondermonger-versi
 
 ```shell
 versions=$(git tag)
-echo $versions | wondermonger-version --new version
+echo $versions | wondermonger-version --new-version patch
 
 versions="v1.0.0-alpha\nv1.0.0\nv1.0.1"
-echo $versions | wondermonger-version --prefix "v" --new version
+echo $versions | wondermonger-version --prefix "v" --new-version patch
 ```
 
 **Flags**
