@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "eslint": "^4.11.0",
-    "eslint-config-wondermonger": "^1.0.3",
+    "eslint-config-wondermonger": "^2.0.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
